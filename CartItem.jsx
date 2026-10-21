@@ -1,39 +1,37 @@
 
+
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  removeItem,
-  updateQuantity,
-} from "./CartSlice";
+import { removeItem, updateQuantity } from "./CartSlice";
 
 function CartItem() {
   const dispatch = useDispatch();
-  const items = useSelector((state) => state.cart?.items || []);
+  const items = useSelector((state) => state.cart.items || []);
 
-  const total = items.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
-
-  const cartCount = items.reduce(
+  const totalItems = items.reduce(
     (sum, item) => sum + item.quantity,
     0
   );
 
+  const totalAmount = items.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+
   return (
-    <div className="cart-page" id="cart">
+    <div className="cart-page">
       <nav className="navbar">
-        <a href="#home">Home</a>
-        <a href="#plants">Plants</a>
-        <a href="#cart">🛒 Cart ({cartCount})</a>
+        <a href="/">Home</a>
+        <a href="/plants">Plants</a>
+        <a href="/cart">Cart ({totalItems})</a>
       </nav>
 
-      <h1>Your Shopping Cart</h1>
+      <h1>Shopping Cart</h1>
 
       {items.length === 0 ? (
         <div>
-          <p>Your cart is empty.</p>
-          <a href="#plants">Continue Shopping</a>
+          <p>Your shopping cart is empty.</p>
+          <a href="/plants">Continue Shopping</a>
         </div>
       ) : (
         <>
@@ -42,64 +40,59 @@ function CartItem() {
               <img
                 src={item.image}
                 alt={item.name}
-                className="plant-image"
+                width="120"
+                height="120"
               />
 
-              <div>
-                <h3>{item.name}</h3>
-                <p>Unit price: ${item.price.toFixed(2)}</p>
-                <p>
-                  Item total: $
-                  {(item.price * item.quantity).toFixed(2)}
-                </p>
+              <h2>{item.name}</h2>
+              <p>Unit Price: ${Number(item.price).toFixed(2)}</p>
+              <p>
+                Item Total: $
+                {(Number(item.price) * item.quantity).toFixed(2)}
+              </p>
 
-                <button
-                  onClick={() =>
-                    dispatch(
-                      updateQuantity({
-                        id: item.id,
-                        quantity: item.quantity - 1,
-                      })
-                    )
-                  }
-                  disabled={item.quantity <= 1}
-                >
-                  −
-                </button>
+              <button
+                disabled={item.quantity <= 1}
+                onClick={() =>
+                  dispatch(
+                    updateQuantity({
+                      id: item.id,
+                      quantity: item.quantity - 1,
+                    })
+                  )
+                }
+              >
+                -
+              </button>
 
-                <span> {item.quantity} </span>
+              <span> {item.quantity} </span>
 
-                <button
-                  onClick={() =>
-                    dispatch(
-                      updateQuantity({
-                        id: item.id,
-                        quantity: item.quantity + 1,
-                      })
-                    )
-                  }
-                >
-                  +
-                </button>
+              <button
+                onClick={() =>
+                  dispatch(
+                    updateQuantity({
+                      id: item.id,
+                      quantity: item.quantity + 1,
+                    })
+                  )
+                }
+              >
+                +
+              </button>
 
-                <button
-                  onClick={() => dispatch(removeItem(item.id))}
-                >
-                  Delete
-                </button>
-              </div>
+              <button onClick={() => dispatch(removeItem(item.id))}>
+                Delete
+              </button>
             </div>
           ))}
 
-          <h2>Cart Total: ${total.toFixed(2)}</h2>
+          <h2>Total Cart Amount: ${totalAmount.toFixed(2)}</h2>
 
           <button onClick={() => alert("Coming Soon!")}>
             Checkout
           </button>
 
-          <p>
-            <a href="#plants">Continue Shopping</a>
-          </p>
+          <a href="/plants">Continue Shopping</a>
         </>
       )}
     </div>
