@@ -1,0 +1,32 @@
+
+.landing-page {
+  min-height: 100vh;
+  background-image: url("https://images.unsplash.com/photo-1497250681960-ef046c08a56e");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.landing-overlay {
+  min-height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
+}
+
+.landing-overlay h1 {
+  font-size: 3rem;
+}
+
+.landing-overlay button {
+  padding: 12px 24px;
+  background-color: #2e7d32;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
